@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couponeer Link-in-Bio Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Couponeer Link-in-Bio Generator</h1>
+    <input type="text" id="displayName" placeholder="Enter Display Name" required>
+    <input type="text" id="couponCode" placeholder="Enter Coupon Code" required>
+    <button id="generateButton">Generate Link</button>
+    <button id="copyButton" style="display: none;">Copy Link</button>
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const displayName = document.getElementById('displayName').value.trim();
+            const couponCode = document.getElementById('couponCode').value.trim();
+
+            if (displayName && couponCode) {
+                const formattedDisplayName = displayName.replaceAll(' ', '_');
+                const generatedUrl = `https://couponeer.alreflections.net/@${formattedDisplayName}?coupon=${couponCode}`;
+                document.getElementById('result').innerText = `Generated URL: ${generatedUrl}`;
+                document.getElementById('copyButton').style.display = 'inline-block'; // Show the copy button
+                document.getElementById('copyButton').setAttribute('data-url', generatedUrl); // Store the URL in the button
+            } else {
+                document.getElementById('result').innerText = 'Please fill in both fields.';
+                document.getElementById('copyButton').style.display = 'none'; // Hide the copy button
+            }
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const urlToCopy = this.getAttribute('data-url');
+            navigator.clipboard.writeText(urlToCopy).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+    </script>
+
+</body>
+</html>
